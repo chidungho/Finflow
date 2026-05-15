@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FinFlow.vn – Tài chính Việt Nam trong tầm tay</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&family=DM+Mono:wght@400;500&family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet">
+</head>
+<body>
+
+  <!-- ===== HEADER ===== -->
+  <header class="header" id="header">
+    <div class="header-inner container">
+      <a href="#home" class="logo">
+        <span class="logo-icon">◈</span>
+        <span class="logo-text">Fin<span class="logo-accent">Flow</span><span class="logo-tld">.vn</span></span>
+      </a>
+
+      <nav class="nav-desktop" id="navDesktop">
+        <a href="#home" class="nav-link active">Trang chủ</a>
+        <a href="#gold" class="nav-link">Vàng</a>
+        <a href="#fuel" class="nav-link">Xăng dầu</a>
+        <a href="#stock" class="nav-link">Chứng khoán</a>
+        <a href="#exchange" class="nav-link">Tỷ giá</a>
+        <a href="#interest" class="nav-link">Lãi suất</a>
+      </nav>
+
+      <div class="header-actions">
+        <button class="hamburger" id="hamburger" aria-label="Menu">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Mobile Menu -->
+    <div class="mobile-menu" id="mobileMenu">
+      <a href="#home" class="mobile-nav-link active">Trang chủ</a>
+      <a href="#gold" class="mobile-nav-link">Vàng</a>
+      <a href="#fuel" class="mobile-nav-link">Xăng dầu</a>
+      <a href="#stock" class="mobile-nav-link">Chứng khoán</a>
+      <a href="#exchange" class="mobile-nav-link">Tỷ giá</a>
+      <a href="#interest" class="mobile-nav-link">Lãi suất</a>
+    </div>
+  </header>
+
+  <!-- ===== HERO ===== -->
+  <section class="hero" id="home">
+    <div class="hero-bg-grid"></div>
+    <div class="container hero-inner">
+      <div class="hero-content">
+        <div class="hero-badge">
+          <span class="badge-dot"></span>
+          Dữ liệu tài chính Việt Nam
+        </div>
+        <h1 class="hero-title">
+          Theo dõi <span class="title-highlight">vàng, xăng dầu,</span><br>
+          chứng khoán<br>trong một màn hình
+        </h1>
+        <p class="hero-desc">
+          Cập nhật nhanh các chỉ số thị trường quan trọng, trình bày rõ ràng,
+          dễ đọc và tối ưu cho mọi thiết bị.
+        </p>
+        <div class="hero-cta">
+          <a class="btn-primary btn-lg" href="#overview">
+            <span>Xem thị trường</span>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
+          </a>
+          <a class="btn-outline btn-lg" href="#gold">Khám phá công cụ</a>
+        </div>
+        <div class="hero-stats">
+          <div class="hero-stat"><span class="stat-num">50+</span><span class="stat-label">Chỉ số</span></div>
+          <div class="hero-stat"><span class="stat-num">15+</span><span class="stat-label">Ngân hàng</span></div>
+          <div class="hero-stat"><span class="stat-num">Real‑time</span><span class="stat-label">Cập nhật</span></div>
+        </div>
+      </div>
+
+      <div class="hero-visual">
+        <div class="dashboard-preview">
+          <div class="preview-header">
+            <span class="preview-title">Thị trường hôm nay</span>
+            <span class="preview-time" id="previewTime"></span>
+          </div>
+          <div class="preview-metrics">
+            <div class="preview-metric">
+              <span class="pm-name">VN-Index</span>
+              <span class="pm-value" id="pm-vnindex">1.284,75</span>
+              <span class="pm-change up" id="pm-vnindex-ch">+0,82%</span>
+            </div>
+            <div class="preview-metric">
+              <span class="pm-name">Vàng SJC</span>
+              <span class="pm-value" id="pm-gold">119.000</span>
+              <span class="pm-change up" id="pm-gold-ch">+0,45%</span>
+            </div>
+            <div class="preview-metric">
+              <span class="pm-name">RON95</span>
+              <span class="pm-value" id="pm-fuel">23.050</span>
+              <span class="pm-change down" id="pm-fuel-ch">-0,22%</span>
+            </div>
+            <div class="preview-metric">
+              <span class="pm-name">USD/VND</span>
+              <span class="pm-value" id="pm-usd">25.460</span>
+              <span class="pm-change up" id="pm-usd-ch">+0,12%</span>
+            </div>
+          </div>
+          <!-- SVG Mini Chart -->
+          <div class="preview-chart">
+            <svg viewBox="0 0 300 80" preserveAspectRatio="none" class="mini-chart-svg" id="miniChartSvg">
+              <defs>
+                <linearGradient id="chartGrad" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stop-color="var(--accent-green)" stop-opacity="0.35"/>
+                  <stop offset="100%" stop-color="var(--accent-green)" stop-opacity="0"/>
+                </linearGradient>
+              </defs>
+              <path id="chartArea" d="M0,60 L30,52 L60,55 L90,40 L120,42 L150,35 L180,30 L210,22 L240,18 L270,12 L300,8 L300,80 L0,80 Z" fill="url(#chartGrad)"/>
+              <path id="chartLine" d="M0,60 L30,52 L60,55 L90,40 L120,42 L150,35 L180,30 L210,22 L240,18 L270,12 L300,8" fill="none" stroke="var(--accent-green)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+          <div class="preview-footer">
+            <span class="pf-dot"></span>
+            <span>Đang cập nhật tự động</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- ===== QUICK OVERVIEW ===== -->
+  <section class="content-section content-section-alt" id="overview">
+    <div class="container">
+      <div class="section-header section-header-stack">
+        <div>
+          <h2 class="section-title">Tổng quan nhanh thị trường</h2>
+          <p class="section-sub">Bốn chỉ số nổi bật nhất để người xem nắm xu hướng trong vài giây.</p>
+        </div>
+        <div class="section-actions-row">
+          <button class="btn-refresh" id="refreshBtn">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="23 4 23 10 17 10"></polyline><polyline points="1 20 1 14 7 14"></polyline><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path></svg>
+            Làm mới
+          </button>
+        </div>
+      </div>
+      <div class="quick-overview-grid" id="quickOverviewGrid"></div>
+    </div>
+  </section>
+
+  <!-- ===== GOLD SECTION ===== -->
+  <section class="content-section" id="gold">
+    <div class="container">
+      <div class="section-header section-header-stack">
+        <div>
+          <div class="section-kicker">Vàng</div>
+          <h2 class="section-title">Giá vàng hôm nay</h2>
+          <p class="section-sub">Theo dõi mức mua vào, bán ra và chênh lệch theo từng sản phẩm vàng nổi bật.</p>
+        </div>
+        <button class="btn-detail" data-detail-type="gold">Xem chi tiết</button>
+      </div>
+      <div class="section-layout section-layout-2col">
+        <div class="summary-panel" id="goldSummaryCards"></div>
+        <div class="section-stack">
+          <div class="chart-card chart-card-compact">
+            <div class="chart-info">
+              <span class="chart-title" id="goldChartTitle">Giá Vàng SJC</span>
+              <span class="chart-value" id="goldChartCurrentVal">Đang tải API</span>
+              <span class="chart-change up" id="goldChartChange">+450 (+0,38%)</span>
+            </div>
+            <div class="main-chart-wrap">
+              <svg id="goldChart" viewBox="0 0 800 200" preserveAspectRatio="none" class="main-chart-svg">
+                <defs>
+                  <linearGradient id="goldGrad" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stop-color="var(--accent-green)" stop-opacity="0.2"/>
+                    <stop offset="100%" stop-color="var(--accent-green)" stop-opacity="0"/>
+                  </linearGradient>
+                </defs>
+                <line x1="0" y1="50" x2="800" y2="50" stroke="var(--border)" stroke-width="1" stroke-dasharray="4,4"/>
+                <line x1="0" y1="100" x2="800" y2="100" stroke="var(--border)" stroke-width="1" stroke-dasharray="4,4"/>
+                <line x1="0" y1="150" x2="800" y2="150" stroke="var(--border)" stroke-width="1" stroke-dasharray="4,4"/>
+                <path id="goldChartArea" d="" fill="url(#goldGrad)"/>
+                <path id="goldChartLine" d="" fill="none" stroke="var(--accent-green)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+              <div class="chart-x-labels" id="goldChartXLabels"></div>
+            </div>
+          </div>
+          <div class="table-card">
+            <div class="table-card-header">
+              <h3 class="table-card-title">Bảng giá vàng</h3>
+              <span class="table-badge">Cập nhật theo API</span>
+            </div>
+            <div class="table-responsive">
+              <table class="data-table" id="goldTable">
+                <thead>
+                  <tr>
+                    <th>Sản phẩm</th>
+                    <th>Mua vào</th>
+                    <th>Bán ra</th>
+                    <th>Chênh lệch</th>
+                  </tr>
+                </thead>
+                <tbody></tbody>
+              </table>
+            </div>
+            <div class="mobile-card-list" id="goldCardList"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== FUEL SECTION ===== -->
+  <section class="content-section content-section-alt" id="fuel">
+    <div class="container">
+      <div class="section-header section-header-stack">
+        <div>
+          <div class="section-kicker">Xăng dầu</div>
+          <h2 class="section-title">Giá xăng dầu hôm nay</h2>
+          <p class="section-sub">Hiển thị dữ liệu realtime từ API local với trạng thái đồng bộ rõ ràng, tách hoàn toàn khỏi các chuyên mục khác.</p>
+        </div>
+        <button class="btn-detail" data-detail-type="fuel">Xem chi tiết</button>
+      </div>
+      <div class="section-layout section-layout-2col">
+        <div class="summary-panel" id="fuelSummaryCards"></div>
+        <div class="section-stack">
+          <div class="chart-card chart-card-compact">
+            <div class="chart-info">
+              <span class="chart-title" id="fuelChartTitle">Giá Xăng RON95</span>
+              <span class="chart-value" id="fuelChartCurrentVal">23.050 đ/lít</span>
+              <span class="chart-change down" id="fuelChartChange">-200 (-0,86%)</span>
+            </div>
+            <div class="main-chart-wrap">
+              <svg id="fuelChart" viewBox="0 0 800 200" preserveAspectRatio="none" class="main-chart-svg">
+                <defs>
+                  <linearGradient id="fuelGrad" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stop-color="var(--accent-blue)" stop-opacity="0.22"/>
+                    <stop offset="100%" stop-color="var(--accent-blue)" stop-opacity="0"/>
+                  </linearGradient>
+                </defs>
+                <line x1="0" y1="50" x2="800" y2="50" stroke="var(--border)" stroke-width="1" stroke-dasharray="4,4"/>
+                <line x1="0" y1="100" x2="800" y2="100" stroke="var(--border)" stroke-width="1" stroke-dasharray="4,4"/>
+                <line x1="0" y1="150" x2="800" y2="150" stroke="var(--border)" stroke-width="1" stroke-dasharray="4,4"/>
+                <path id="fuelChartArea" d="" fill="url(#fuelGrad)"/>
+                <path id="fuelChartLine" d="" fill="none" stroke="var(--accent-blue)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+              <div class="chart-x-labels" id="fuelChartXLabels"></div>
+            </div>
+            <div class="fuel-api-meta-inline">
+              <span class="table-badge" id="fuelTableBadge">Đang cập nhật</span>
+              <span class="fuel-api-status" id="fuelApiStatus">API local: đang khởi tạo…</span>
+            </div>
+          </div>
+          <div class="table-card">
+            <div class="table-card-header">
+              <h3 class="table-card-title">Bảng giá xăng dầu</h3>
+              <span class="table-badge">Dữ liệu chi tiết</span>
+            </div>
+            <div class="table-responsive">
+              <table class="data-table" id="fuelTable">
+                <thead>
+                  <tr>
+                    <th>Loại</th>
+                    <th>Giá (đ/lít)</th>
+                    <th>Thay đổi</th>
+                    <th>Cập nhật</th>
+                  </tr>
+                </thead>
+                <tbody></tbody>
+              </table>
+            </div>
+            <div class="mobile-card-list" id="fuelCardList"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== STOCK SECTION ===== -->
+  <section class="content-section" id="stock">
+    <div class="container">
+      <div class="section-header section-header-stack">
+        <div>
+          <div class="section-kicker">Chứng khoán</div>
+          <h2 class="section-title">Thị trường chứng khoán</h2>
+          <p class="section-sub">Theo dõi nhóm tăng mạnh, giảm mạnh và thanh khoản lớn theo tab đơn giản và trực quan.</p>
+        </div>
+        <button class="btn-detail" data-detail-type="stock">Xem chi tiết</button>
+      </div>
+      <div class="section-layout section-layout-2col">
+        <div class="summary-panel" id="stockSummaryCards"></div>
+        <div class="table-card">
+          <div class="table-card-header">
+            <h3 class="table-card-title">Top cổ phiếu</h3>
+            <div class="tab-group" id="stockTabs">
+              <button class="mini-tab active" data-tab="up">Tăng mạnh</button>
+              <button class="mini-tab" data-tab="down">Giảm mạnh</button>
+              <button class="mini-tab" data-tab="liquid">Thanh khoản</button>
+            </div>
+          </div>
+          <div class="table-responsive">
+            <table class="data-table" id="stockTable">
+              <thead>
+                <tr>
+                  <th>Mã CK</th>
+                  <th>Giá</th>
+                  <th>Thay đổi</th>
+                  <th>KL (triệu)</th>
+                </tr>
+              </thead>
+              <tbody></tbody>
+            </table>
+          </div>
+          <div class="mobile-card-list" id="stockCardList"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== EXCHANGE SECTION ===== -->
+  <section class="content-section content-section-alt" id="exchange">
+    <div class="container">
+      <div class="section-header section-header-stack">
+        <div>
+          <div class="section-kicker">Tỷ giá</div>
+          <h2 class="section-title">Tỷ giá ngoại tệ</h2>
+          <p class="section-sub">Hiển thị rõ tiền mặt, chuyển khoản và bán ra cho các ngoại tệ phổ biến.</p>
+        </div>
+        <button class="btn-detail" data-detail-type="exchange">Xem chi tiết</button>
+      </div>
+      <div class="section-layout section-layout-2col">
+        <div class="summary-panel" id="exchangeSummaryCards"></div>
+        <div class="table-card">
+          <div class="table-card-header">
+            <h3 class="table-card-title">Bảng tỷ giá</h3>
+            <span class="table-badge">Vietcombank</span>
+          </div>
+          <div class="table-responsive">
+            <table class="data-table" id="forexTable">
+              <thead>
+                <tr>
+                  <th>Tiền tệ</th>
+                  <th>Tiền mặt</th>
+                  <th>Chuyển khoản</th>
+                  <th>Bán ra</th>
+                </tr>
+              </thead>
+              <tbody></tbody>
+            </table>
+          </div>
+          <div class="mobile-card-list" id="forexCardList"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== INTEREST SECTION ===== -->
+  <section class="content-section" id="interest">
+    <div class="container">
+      <div class="section-header section-header-stack">
+        <div>
+          <div class="section-kicker">Lãi suất</div>
+          <h2 class="section-title">Lãi suất ngân hàng</h2>
+          <p class="section-sub">Bảng tóm tắt kỳ hạn ngắn và danh sách lãi suất đầy đủ theo ngân hàng.</p>
+        </div>
+        <button class="btn-detail" data-detail-type="interest">Xem chi tiết</button>
+      </div>
+      <div class="section-layout section-layout-2col">
+        <div class="summary-panel" id="interestSummaryCards"></div>
+        <div class="table-card">
+          <div class="table-card-header">
+            <h3 class="table-card-title">Bảng lãi suất</h3>
+            <span class="table-badge">%/năm</span>
+          </div>
+          <div class="rates-grid" id="ratesGrid"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+
+  <!-- ===== FAQ ===== -->
+  <section class="content-section" id="faq">
+    <div class="container">
+      <div class="section-header section-header-stack">
+        <div>
+          <div class="section-kicker">FAQ</div>
+          <h2 class="section-title">Câu hỏi thường gặp</h2>
+          <p class="section-sub">Rút gọn còn 4 câu để dễ đọc trên mobile.</p>
+        </div>
+      </div>
+
+      <div class="faq-list">
+        <details class="faq-item" open>
+          <summary>API xăng dầu lấy từ đâu?</summary>
+          <p>Từ API local bạn đã clone về máy, dùng cache để tránh trống dữ liệu.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Trang có tự cập nhật không?</summary>
+          <p>Có, phần xăng dầu được refresh định kỳ và có nút làm mới thủ công.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Mỗi section có chứa dữ liệu lẫn nhau không?</summary>
+          <p>Không, mỗi section chỉ hiển thị đúng chuyên mục của nó.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Có thể mở rộng thêm gì?</summary>
+          <p>Có thể thêm biểu đồ, tin nhanh hoặc cảnh báo giá ngay bên dưới.</p>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== CTA ===== -->
+  <section class="content-section content-section-cta" id="cta">
+    <div class="container">
+      <div class="cta-panel cta-panel-small">
+        <div>
+          <h2 class="section-title">Landing page tài chính dài, rõ ràng và dễ quét mắt</h2>
+          <p class="section-sub">Bố cục được chia theo từng header để người dùng vào đúng khu vực mình cần trong vài cú nhấp.</p>
+        </div>
+        <div class="cta-actions">
+          <a class="btn-primary btn-lg" href="#gold">Xem giá vàng</a>
+          <a class="btn-outline btn-lg" href="#overview">Xem tổng quan</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+
+  <!-- ===== FOOTER ===== -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-col footer-brand">
+          <a href="#" class="logo">
+            <span class="logo-icon">◈</span>
+            <span class="logo-text">Fin<span class="logo-accent">Flow</span><span class="logo-tld">.vn</span></span>
+          </a>
+          <p class="footer-desc">Nền tảng tổng hợp dữ liệu tài chính Việt Nam nhanh, rõ, đáng tin cậy.</p>
+            <div class="footer-badges">
+            <span class="f-badge">SSL</span>
+            <span class="f-badge">Tốc độ cao</span>
+            <span class="f-badge">Tự động cập nhật</span>
+          </div>
+        </div>
+
+        <div class="footer-col">
+          <h4 class="footer-heading">Thị trường</h4>
+          <ul class="footer-links">
+            <li><a href="#">Giá vàng</a></li>
+            <li><a href="#">Giá xăng dầu</a></li>
+            <li><a href="#">Chứng khoán</a></li>
+            <li><a href="#">Tỷ giá</a></li>
+            <li><a href="#">Lãi suất</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h4 class="footer-heading">Công cụ</h4>
+          <ul class="footer-links">
+            <li><a href="#">Tính lãi suất</a></li>
+            <li><a href="#">So sánh tiết kiệm</a></li>
+            <li><a href="#">Biểu đồ nâng cao</a></li>
+            <li><a href="#">Cảnh báo giá</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h4 class="footer-heading">Về chúng tôi</h4>
+          <ul class="footer-links">
+            <li><a href="#">Giới thiệu</a></li>
+            <li><a href="#">Liên hệ</a></li>
+            <li><a href="#">Chính sách BM</a></li>
+            <li><a href="#">Điều khoản</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <p class="footer-warning">
+          Thông tin chỉ mang tính tham khảo, không phải tư vấn đầu tư. Hãy tự nghiên cứu trước khi ra quyết định.
+        </p>
+        <p class="footer-copy">© 2025 FinFlow.vn. Bảo lưu mọi quyền.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ===== MOBILE BOTTOM NAV ===== -->
+  <nav class="bottom-nav" id="bottomNav">
+    <a href="#home" class="bn-item active">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path></svg>
+      <span>Trang chủ</span>
+    </a>
+    <a href="#gold" class="bn-item">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="6" x2="12" y2="12"></line><line x1="12" y1="12" x2="16" y2="12"></line></svg>
+      <span>Vàng</span>
+    </a>
+    <a href="#fuel" class="bn-item">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h12v7H6z"></path><path d="M9 10v7a3 3 0 0 0 6 0v-7"></path><path d="M3 20h18"></path></svg>
+      <span>Xăng</span>
+    </a>
+    <a href="#stock" class="bn-item">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="12 3 20 7.5 20 16.5 12 21 4 16.5 4 7.5 12 3"></polyline><polyline points="12 12 20 7.5"></polyline><polyline points="12 12 12 21"></polyline><polyline points="12 12 4 7.5"></polyline></svg>
+      <span>CK</span>
+    </a>
+    <a href="#exchange" class="bn-item">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20M2 12h20"></path><circle cx="12" cy="12" r="10"></circle></svg>
+      <span>Tỷ giá</span>
+    </a>
+  </nav>
+
+  <!-- ===== DETAIL MODAL ===== -->
+  <div class="detail-modal" id="detailModal" aria-hidden="true">
+    <div class="detail-modal-overlay" data-close-modal></div>
+    <div class="detail-modal-panel" role="dialog" aria-modal="true" aria-labelledby="detailModalTitle">
+      <button class="detail-modal-close" type="button" id="detailModalClose" aria-label="Đóng">×</button>
+      <div class="detail-modal-content" id="detailModalContent">
+        <h3 id="detailModalTitle">Chi tiết</h3>
+        <div id="detailModalBody"></div>
+      </div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
