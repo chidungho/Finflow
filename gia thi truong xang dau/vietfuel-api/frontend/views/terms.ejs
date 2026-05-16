@@ -1,0 +1,70 @@
+<%- include('partials/header', { title: 'Trang Pháp lý', activeMenu: '', bodyClass: '' }) %>
+
+<main class="main-content">
+    <div class="container animate-fade-in" style="padding: 100px 20px;">
+  <div class="legal-card main-glass">
+    <div class="legal-header">
+      <div class="legal-icon">
+        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+      </div>
+      <h1 class="legal-title" data-vi="Điều khoản sử dụng" data-en="Terms of Service">Điều khoản sử dụng</h1>
+      <p class="legal-date" data-vi="Cập nhật lần cuối: 26 tháng 4, 2026" data-en="Last Updated: April 26, 2026">Cập nhật lần cuối: 26 tháng 4, 2026</p>
+    </div>
+
+    <div class="legal-body content-glass">
+      <section class="legal-section">
+        <h2 data-vi="1. Chấp thuận điều khoản" data-en="1. Terms Acceptance">1. Chấp thuận điều khoản</h2>
+        <p data-vi="Bằng cách truy cập vào trang web này hoặc sử dụng dữ liệu từ VietFuelAPI, bạn đồng ý tuân thủ các điều khoản này. Nếu bạn không đồng ý, vui lòng ngừng sử dụng dịch vụ ngay lập tức." data-en="By accessing this website or using data from VietFuelAPI, you agree to comply with these terms. If you do not agree, please stop using the service immediately.">Bằng cách truy cập vào trang web này hoặc sử dụng dữ liệu từ VietFuelAPI, bạn đồng ý tuân thủ các điều khoản này. Nếu bạn không đồng ý, vui lòng ngừng sử dụng dịch vụ ngay lập tức.</p>
+      </section>
+
+      <section class="legal-section">
+        <h2 data-vi="2. Quyền sở hữu trí tuệ" data-en="2. Intellectual Property">2. Quyền sở hữu trí tuệ</h2>
+        <p data-vi="Mã nguồn của VietFuelAPI được phát hành theo giấy phép <strong>MIT</strong>. Tuy nhiên, toàn bộ tên thương hiệu và logo từ các nguồn dữ liệu được tích hợp (11 nguồn) là tài sản của các đơn vị quản lý tương ứng, và chỉ được sử dụng cho mục đích nhận diện nguồn dữ liệu." data-en="The source code for VietFuelAPI is released under the <strong>MIT</strong> license. However, all brand names and logos from the integrated data sources (11 sources) remain the property of their respective owners and are used solely for source identification.">Mã nguồn của VietFuelAPI được phát hành theo giấy phép <strong>MIT</strong>. Tuy nhiên, toàn bộ tên thương hiệu và logo từ các nguồn dữ liệu được tích hợp (11 nguồn) là tài sản của các đơn vị quản lý tương ứng, và chỉ được sử dụng cho mục đích nhận diện nguồn dữ liệu.</p>
+      </section>
+
+      <section class="legal-section">
+        <h2 data-vi="3. Giới hạn sử dụng & Tấn công" data-en="3. Usage & Abuse Policy">3. Giới hạn sử dụng & Tấn công</h2>
+        <p data-vi="Chúng tôi cung cấp API cho cộng đồng nhưng có các quy định nghiêm ngặt để bảo vệ hệ thống:" data-en="We provide this API to the community with strict rules to protect service stability:">Chúng tôi cung cấp API cho cộng đồng nhưng có các quy định nghiêm ngặt để bảo vệ hệ thống:</p>
+        <ul data-vi="<li>Không được thực hiện các hành vi gây quá tải hoặc tấn công <strong>DDoS</strong>.</li><li>Tôn trọng giới hạn tốc độ: 60 request/phút cho endpoint quốc gia và 20 request/phút cho endpoint tỉnh thành (mỗi IP).</li><li>Không được sử dụng dữ liệu để lừa đảo hoặc vi phạm pháp luật hiện hành.</li>" data-en="<li>You must not perform actions aimed at overloading or attacking the service with <strong>DDoS</strong>.</li><li>Respect rate limits: 60 requests/minute for national endpoints and 20 requests/minute for province endpoints (per IP).</li><li>Using the data for fraudulent purposes or in violation of applicable laws is strictly prohibited.</li>">
+          <li>Không được thực hiện các hành vi gây quá tải hoặc tấn công <strong>DDoS</strong>.</li>
+          <li>Tôn trọng giới hạn tốc độ: 60 request/phút cho endpoint quốc gia và 20 request/phút cho endpoint tỉnh thành (mỗi IP).</li>
+          <li>Không được sử dụng dữ liệu để lừa đảo hoặc vi phạm pháp luật hiện hành.</li>
+        </ul>
+      </section>
+
+      <section class="legal-section">
+        <h2 data-vi="4. Trách nhiệm người tích hợp" data-en="4. Integrator Responsibility">4. Trách nhiệm người tích hợp</h2>
+        <p data-vi="Nếu bạn tích hợp VietFuelAPI vào ứng dụng thương mại hoặc dịch vụ của mình, bạn có trách nhiệm thông báo đầy đủ các điều khoản miễn trừ trách nhiệm của chúng tôi cho người dùng cuối của bạn." data-en="If you integrate VietFuelAPI into your commercial application or service, you are responsible for fully informing your end-users of our disclaimer terms.">Nếu bạn tích hợp VietFuelAPI vào ứng dụng thương mại hoặc dịch vụ của mình, bạn có trách nhiệm thông báo đầy đủ các điều khoản miễn trừ trách nhiệm của chúng tôi cho người dùng cuối của bạn.</p>
+      </section>
+
+      <section class="legal-section">
+        <h2 data-vi="5. Thay đổi Điều khoản" data-en="5. Service Changes">5. Thay đổi Điều khoản</h2>
+        <p data-vi="VietFuelAPI có quyền thay đổi các điều khoản này bất cứ lúc nào mà không cần thông báo trước. Việc tiếp tục sử dụng API sau các thay đổi được coi là chấp nhận điều khoản mới nhất." data-en="VietFuelAPI reserves the right to change these terms at any time without prior notice. Continued use of the API following changes constitutes acceptance of the latest terms.">VietFuelAPI có quyền thay đổi các điều khoản này bất cứ lúc nào mà không cần thông báo trước. Việc tiếp tục sử dụng API sau các thay đổi được coi là chấp nhận điều khoản mới nhất.</p>
+      </section>
+
+      <section class="legal-section">
+        <h2 data-vi="6. Miễn trừ Bảo hành dịch vụ" data-en="6. Service Warranty Disclaimer">6. Miễn trừ Bảo hành dịch vụ</h2>
+        <p data-vi="VietFuelAPI được cung cấp theo nguyên tắc &quot;nguyên trạng&quot; (as-is). Chúng tôi không đảm bảo tính liên tục của dịch vụ, đặc biệt trong trường hợp nguồn dữ liệu gốc thay đổi cấu trúc trang web, triển khai biện pháp chặn truy cập hoặc ngừng cung cấp thông tin công khai. Hệ thống có thể tạm thời phục vụ dữ liệu cũ (Stale Cache) và sẽ thông báo rõ ràng thông qua cờ <strong>isStale</strong> trong phản hồi API." data-en="VietFuelAPI is provided on an &quot;as-is&quot; basis. We do not guarantee service continuity, especially in cases where the original data source changes its website structure, implements access blocking measures, or stops providing public information. The system may temporarily serve stale data and will clearly indicate this through the <strong>isStale</strong> flag in API responses.">VietFuelAPI được cung cấp theo nguyên tắc "nguyên trạng" (as-is). Chúng tôi không đảm bảo tính liên tục của dịch vụ, đặc biệt trong trường hợp nguồn dữ liệu gốc thay đổi cấu trúc trang web, triển khai biện pháp chặn truy cập hoặc ngừng cung cấp thông tin công khai. Hệ thống có thể tạm thời phục vụ dữ liệu cũ (Stale Cache) và sẽ thông báo rõ ràng thông qua cờ <strong>isStale</strong> trong phản hồi API.</p>
+      </section>
+    </div>
+
+    <div class="legal-footer">
+      <div class="legal-nav-box">
+        <p class="legal-nav-title" data-vi="Điều hướng nhanh mục Pháp lý" data-en="Quick legal navigation">Điều hướng nhanh mục Pháp lý</p>
+        <div class="legal-nav-links">
+          <a href="/disclaimer" class="legal-nav-link" data-vi="Miễn trừ" data-en="Disclaimer">Miễn trừ</a>
+          <a href="/privacy" class="legal-nav-link" data-vi="Bảo mật" data-en="Privacy">Bảo mật</a>
+          <a href="/terms" class="legal-nav-link legal-nav-current" aria-current="page" data-vi="Điều khoản" data-en="Terms">Điều khoản</a>
+        </div>
+      </div>
+
+      <div class="legal-footer-actions">
+        <a href="/" class="btn btn-ghost" data-vi="Quay lại Trang chủ" data-en="Back to Home">Quay lại Trang chủ</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+  </main>
+
+<%- include('partials/footer', { extraScripts: `` }) %>

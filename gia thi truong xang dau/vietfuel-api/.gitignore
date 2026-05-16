@@ -1,0 +1,30 @@
+# Dependencies
+node_modules/
+
+# Environment
+.env
+
+# Runtime cache (generated at startup)
+cache.json
+**/cache.json
+
+# Log files
+*.log
+logs/
+**/logs/
+
+# Debug artifacts
+backend/tools/debug/*.html
+backend/tools/debug/*.log
+backend/tools/debug/output/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Editor
+.vscode/
+.idea/
+
+# Demo Website
+websites/

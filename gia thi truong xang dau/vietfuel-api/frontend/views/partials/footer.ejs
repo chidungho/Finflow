@@ -1,0 +1,123 @@
+  <footer class="site-footer">
+  <div class="footer-huge-text">VIETFUEL API</div>
+  <canvas id="flickering-grid-footer"></canvas>
+  <div class="container">
+    <div class="footer-grid">
+      <!-- Col 1: Brand -->
+      <div class="footer-logo-col">
+        <div class="footer-logo-container">
+          <img src="/brand/VietFuelAPI_footer.png" alt="VietFuelAPI Footer Logo" class="footer-logo-img" />
+        </div>
+        <p class="footer-brand-desc" data-vi="VietFuelAPI cung cấp dữ liệu giá xăng dầu thời gian thực. Tổng hợp từ 11 nguồn qua một Default Endpoint chuẩn hóa, có nhãn nguồn rõ ràng." data-en="VietFuelAPI provides real-time fuel price data. Aggregated from 11 sources via a standardized Default Endpoint with explicit source labels.">
+          VietFuelAPI cung cấp dữ liệu giá xăng dầu thời gian thực. Tổng hợp từ 11 nguồn qua một Default Endpoint chuẩn hóa.
+        </p>
+      </div>
+
+      <!-- Col 2: Explorer -->
+      <div class="footer-links-col">
+        <p class="footer-title" data-vi="KHÁM PHÁ" data-en="EXPLORER">KHÁM PHÁ</p>
+        <ul class="footer-links">
+          <li><a href="/" data-vi="Trang chủ" data-en="Home">Trang chủ</a></li>
+          <li><a href="/live" data-vi="Dữ liệu thực tế" data-en="Live Tracker">Dữ liệu thực tế</a></li>
+          <li><a href="/endpoints#demo" data-vi="Demo Terminal" data-en="Terminal Demo">Demo Terminal</a></li>
+          <li><a href="https://github.com/TranQui004/vietfuel-api" target="_blank" rel="noopener">GitHub ↗</a></li>
+        </ul>
+      </div>
+
+      <!-- Col 3: Documentation -->
+      <div class="footer-links-col">
+        <p class="footer-title" data-vi="TÀI LIỆU" data-en="DOCUMENTATION">TÀI LIỆU</p>
+        <ul class="footer-links">
+          <li><a href="/endpoints" data-vi="API Reference" data-en="API Reference">API Reference</a></li>
+          <li><a href="/endpoints#schema" data-vi="Cấu trúc dữ liệu" data-en="Data Schema">Cấu trúc dữ liệu</a></li>
+          <li><a href="/endpoints#errors" data-vi="Mã lỗi" data-en="Error Codes">Mã lỗi</a></li>
+        </ul>
+      </div>
+
+      <!-- Col 4: Legal -->
+      <div class="footer-links-col">
+        <p class="footer-title" data-vi="PHÁP LÝ" data-en="LEGAL">PHÁP LÝ</p>
+        <ul class="footer-links">
+          <li><a href="/disclaimer" data-vi="Tuyên bố miễn trừ" data-en="Disclaimer">Tuyên bố miễn trừ</a></li>
+          <li><a href="/privacy" data-vi="Chính sách bảo mật" data-en="Privacy Policy">Chính sách bảo mật</a></li>
+          <li><a href="/terms" data-vi="Điều khoản sử dụng" data-en="Terms of Service">Điều khoản sử dụng</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Centered Bottom Bar -->
+    <div class="footer-bottom">
+      <div class="footer-bottom-inner">
+        <p class="footer-disclaimer-text" data-vi="Tuyên bố miễn trừ trách nhiệm: VietFuelAPI là dự án mã nguồn mở độc lập, không liên kết với Petrolimex hay bất kỳ cơ quan chính phủ nào. Dữ liệu tổng hợp từ 11 nguồn chỉ mang tính chất tham khảo." data-en="Disclaimer: VietFuelAPI is an independent open-source project, not affiliated with Petrolimex or any government agency. Aggregated data from 11 sources is for reference only.">
+          Tuyên bố miễn trừ trách nhiệm: VietFuelAPI là dự án mã nguồn mở độc lập, không liên kết với Petrolimex hay bất kỳ cơ quan chính phủ nào. Dữ liệu tổng hợp từ 11 nguồn chỉ mang tính chất tham khảo.
+        </p>
+        <div class="footer-copy">
+          <span class="copy-text">© 2026 VietFuelAPI. Built for developers.</span>
+          <span class="version-badge">v1.0.0</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+  <button id="backToTop" class="back-to-top" aria-label="Lên đầu trang">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m18 15-6-6-6 6"/></svg>
+    <img src="/brand/backtotop.png" alt="Back to top" class="back-to-top-char" />
+  </button>
+
+  <script src="/js/lang.js"></script>
+  <script src="/js/ui.js"></script>
+  <script>
+    (function() {
+      const canvas = document.getElementById('flickering-grid-footer');
+      if (!canvas) return;
+      const ctx = canvas.getContext('2d', { alpha: true });
+      const config = {
+        squareSize: 4, gridGap: 12,
+        color: [255, 140, 0], // Orange
+        maxOpacity: 0.42, flickerChance: 0.045, transitionSpeed: 0.08
+      };
+      let cols, rows, squares = [];
+      function resize() {
+        const parent = canvas.parentElement;
+        const dpr = window.devicePixelRatio || 1;
+        canvas.width = parent.clientWidth * dpr;
+        canvas.height = parent.clientHeight * dpr;
+        ctx.scale(dpr, dpr);
+        const cellSize = config.squareSize + config.gridGap;
+        cols = Math.ceil(parent.clientWidth / cellSize);
+        rows = Math.ceil(parent.clientHeight / cellSize);
+        squares = Array.from({ length: cols * rows }, () => ({
+          curr: Math.random() * config.maxOpacity,
+          target: Math.random() * config.maxOpacity
+        }));
+      }
+      function animate() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        const cellSize = config.squareSize + config.gridGap;
+        for (let i = 0; i < squares.length; i++) {
+          let sq = squares[i];
+          if (Math.random() < config.flickerChance) sq.target = Math.random() * config.maxOpacity;
+          sq.curr += (sq.target - sq.curr) * config.transitionSpeed;
+          if (sq.curr < 0.01) continue;
+          const x = (i % cols) * cellSize;
+          const y = Math.floor(i / cols) * cellSize;
+          ctx.fillStyle = `rgba(${config.color[0]}, ${config.color[1]}, ${config.color[2]}, ${sq.curr})`;
+          ctx.fillRect(x, y, config.squareSize, config.squareSize);
+        }
+        requestAnimationFrame(animate);
+      }
+      window.addEventListener('resize', resize);
+      resize();
+      requestAnimationFrame(animate);
+    })();
+  </script>
+  <%- (typeof extraScripts !== 'undefined') ? extraScripts : '' %>
+  <script>
+    // Initialize Lucide icons after all scripts loaded
+    document.addEventListener('DOMContentLoaded', function() {
+      if (typeof lucide !== 'undefined') lucide.createIcons();
+    });
+  </script>
+</body>
+</html>

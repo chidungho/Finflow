@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "fs-extra": "^11.3.4",
+    "lucide": "^1.8.0"
+  }
+}

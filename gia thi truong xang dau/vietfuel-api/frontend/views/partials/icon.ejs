@@ -1,0 +1,13 @@
+<%
+/**
+ * icon.ejs partial — Render a Lucide icon as inline SVG shortcut
+ * Usage: <%- include('partials/icon', { name: 'zap', size: 16, className: '' }) %>
+ *
+ * 'name' must match a Lucide icon name (kebab-case)
+ * Lucide.js is loaded globally and auto-creates icons via data-lucide attribute
+ *
+ * For use before lucide.createIcons() runs, we output an inline <svg> placeholder
+ * that gets replaced by lucide.createIcons() on DOMContentLoaded.
+ */
+%>
+<i data-lucide="<%= name || 'circle' %>" width="<%= size || 16 %>" height="<%= size || 16 %>" aria-hidden="true" class="lucide-icon <%= className || '' %>"></i>
