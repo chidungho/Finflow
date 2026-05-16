@@ -1,16 +1,12 @@
 /**
- * VietFuel API
- * Copyright (c) 2026 TranQui
- * Github: https://github.com/TranQui004
- * All rights reserved.
- * 
- * This source code is the intellectual property of TranQui.
- * Community contributions and pull requests are highly welcomed!
+ * Vietnam Fuel API
+ * Author: Chí Dũng
+ * Github: https://github.com/chidungho
  */
 'use strict';
 
 /* ==========================================================================
- * [CONFIGURATION] - Cấu hình hệ thống VietFuelAPI
+ * [CONFIGURATION] - Cấu hình hệ thống Vietnam Fuel API
  * Load biến môi trường và cung cấp thông số chạy chung.
  * ========================================================================== */
 

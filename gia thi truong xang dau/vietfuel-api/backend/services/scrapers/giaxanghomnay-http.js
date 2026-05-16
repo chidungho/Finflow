@@ -1,6 +1,7 @@
 /**
- * VietFuel API
- * HTTP scraper for GiaXangHomNay.
+ * Vietnam Fuel API
+ * Author: Chí Dũng
+ * Github: https://github.com/chidungho
  */
 'use strict';
 

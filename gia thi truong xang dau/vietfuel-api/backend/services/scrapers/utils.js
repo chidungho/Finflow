@@ -1,11 +1,7 @@
 /**
- * VietFuel API
- * Copyright (c) 2026 TranQui
- * Github: https://github.com/TranQui004
- * All rights reserved.
- * 
- * This source code is the intellectual property of TranQui.
- * Community contributions and pull requests are highly welcomed!
+ * Vietnam Fuel API
+ * Author: Chí Dũng
+ * Github: https://github.com/chidungho
  */
 'use strict';
 
@@ -17,13 +13,14 @@
  * và khởi chạy cấu hình gốc headless trình duyệt Playwright (createBrowser).
  * ========================================================================== */
 
+const fs = require('fs');
 const { chromium } = require('playwright');
 const config = require('../../config');
 const logger = require('../../utils/logger');
 
 // Bot User-Agent minh bạch — thông báo rõ danh tính cho quản trị viên nguồn.
 // Tâu nguyên tắc thu thập dữ liệu công khai theo lề phải của cộng đồng mã nguồn mở.
-const BOT_UA = 'VietFuelBot/1.0 (Community non-profit data aggregator; +https://github.com/TranQui004/vietfuel-api)';
+const BOT_UA = 'VietFuelBot/1.0 (Community non-profit data aggregator; +https://github.com/chidungho/vietfuel-api)';
 
 // Pool User-Agent thực tế — chỉ dùng khi nguồn có Cloudflare/anti-bot mạnh chặn bọt rõ ràng.
 // Việc luân phiên UA là giải pháp kỹ thuật cuối cùng, ưu tiên dùng BOT_UA trước.
@@ -128,11 +125,39 @@ function pickMostLikelyPriceDate(candidates, options = {}) {
   return valid[0].iso;
  }
 
+function createMissingBrowserError() {
+  const err = new Error(
+    'Playwright Chromium chưa được cài. Chạy: npx playwright install chromium trong backend để bật scraper dùng trình duyệt'
+  );
+  err.code = 'PLAYWRIGHT_BROWSER_MISSING';
+  return err;
+}
+
+function isMissingPlaywrightBrowserError(err) {
+  if (!err) return false;
+  if (err.code === 'PLAYWRIGHT_BROWSER_MISSING') return true;
+
+  const message = String(err.message || err);
+  return /Executable doesn't exist|Looks like Playwright was just installed|npx playwright install/i.test(message);
+}
+
+function isLocalChromiumAvailable() {
+  try {
+    return fs.existsSync(chromium.executablePath());
+  } catch {
+    return false;
+  }
+}
+
 /**
  * Tạo một Instance Context của Playwright Browser để bắt đầu trích xuất.
  * Tái sử dụng ngữ cảnh cấu hình giúp tối ưu CPU/RAM tránh tải tài nguyên thừa.
  */
 async function createBrowser() {
+  if (!isLocalChromiumAvailable()) {
+    throw createMissingBrowserError();
+  }
+
   const browser = await chromium.launch({
     headless: true,
     args: ['--no-sandbox', '--disable-setuid-sandbox', '--disable-dev-shm-usage'],
@@ -144,7 +169,7 @@ async function createBrowser() {
     locale: 'vi-VN',
     extraHTTPHeaders: {
       'Accept-Language': 'vi-VN,vi;q=0.9,en;q=0.8',
-      'X-Bot-Info': 'VietFuelBot non-profit; github.com/TranQui004/vietfuel-api',
+      'X-Bot-Info': 'VietFuelBot non-profit; github.com/chidungho/vietfuel-api',
     },
   });
   // Chặn resource không cần thiết để tiết kiệm RAM và tăng tốc
@@ -209,6 +234,9 @@ module.exports = {
   pickMostLikelyPriceDate,
   pickRandomUA,
   humanDelay,
+  createMissingBrowserError,
+  isMissingPlaywrightBrowserError,
+  isLocalChromiumAvailable,
   createBrowser,
   fetchGXHNPage,
   parseGXHNTable,

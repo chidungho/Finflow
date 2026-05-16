@@ -1,0 +1,28 @@
+{
+  "name": "gia-thi-truong-xang-dau",
+  "private": true,
+  "author": "Chí Dũng",
+  "maintainers": [
+    {
+      "name": "Chí Dũng",
+      "url": "https://github.com/chidungho"
+    }
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/chidungho/vietfuel-api.git"
+  },
+  "bugs": {
+    "url": "https://github.com/chidungho/vietfuel-api/issues"
+  },
+  "homepage": "https://github.com/chidungho/vietfuel-api#readme",
+  "scripts": {
+    "dev": "npm --prefix \"gia thi truong xang dau/vietfuel-api/backend\" run dev",
+    "start": "npm --prefix \"gia thi truong xang dau/vietfuel-api/backend\" start",
+    "server": "npm --prefix \"gia thi truong xang dau/vietfuel-api/backend\" start",
+    "server.js": "npm --prefix \"gia thi truong xang dau/vietfuel-api/backend\" start",
+    "scrape": "npm --prefix \"gia thi truong xang dau/vietfuel-api/backend\" run scrape",
+    "test": "npm --prefix \"gia thi truong xang dau/vietfuel-api/backend\" test",
+    "browser:install": "npm --prefix \"gia thi truong xang dau/vietfuel-api/backend\" run browser:install"
+  }
+}

@@ -1,11 +1,7 @@
 /**
- * VietFuel API
- * Copyright (c) 2026 TranQui
- * Github: https://github.com/TranQui004
- * All rights reserved.
- * 
- * This source code is the intellectual property of TranQui.
- * Community contributions and pull requests are highly welcomed!
+ * Vietnam Fuel API
+ * Author: Chí Dũng
+ * Github: https://github.com/chidungho
  */
 'use strict';
 
@@ -20,10 +16,9 @@
  * ========================================================================== */
 
 const https = require('https');
-const fs = require('fs');
-const { chromium } = require('playwright');
 const {
   createBrowser,
+  isLocalChromiumAvailable,
   pickRandomUA,
   humanDelay,
   BOT_UA,
@@ -37,14 +32,6 @@ const {
 } = require('./pvoil-parser');
 const config = require('../../config');
 const logger = require('../../utils/logger');
-
-function hasLocalChromium() {
-  try {
-    return fs.existsSync(chromium.executablePath());
-  } catch {
-    return false;
-  }
-}
 
 /**
  * Lấy văn bản một URL công khai qua HTTPS thuần (không headless).
@@ -61,7 +48,7 @@ function fetchPublicText(url, timeoutMs = 15000) {
           'Accept-Language': 'vi-VN,vi;q=0.9,en-US;q=0.8,en;q=0.7',
           'Cache-Control': 'no-cache',
           'Connection': 'keep-alive',
-          'X-Bot-Info': 'VietFuelBot non-profit; github.com/TranQui004/vietfuel-api',
+          'X-Bot-Info': 'VietFuelBot non-profit; github.com/chidungho/vietfuel-api',
         },
       },
       (res) => {
@@ -188,7 +175,7 @@ async function scrapePVOil() {
   let blockedByProtection = false;
 
   // Tầng 1: Cào trực tiếp với kỹ thuật stealth nếu Chromium đã được cài.
-  if (hasLocalChromium()) {
+  if (isLocalChromiumAvailable()) {
     try {
       const result = await scrapeFromPvoilDirect();
       logger.info('[Scraper:PVOil] [Tầng 1] Thành công từ nguồn trực tiếp pvoil.com.vn.');

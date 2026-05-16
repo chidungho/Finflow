@@ -1,11 +1,7 @@
 /**
- * VietFuel API
- * Copyright (c) 2026 TranQui
- * Github: https://github.com/TranQui004
- * All rights reserved.
- * 
- * This source code is the intellectual property of TranQui.
- * Community contributions and pull requests are highly welcomed!
+ * Vietnam Fuel API
+ * Author: Chí Dũng
+ * Github: https://github.com/chidungho
  */
 'use strict';
 
@@ -22,25 +18,6 @@ const { combine, timestamp, printf, colorize, errors } = format;
  */
 const logFormat = printf(({ level, message, timestamp: ts, stack }) => {
   return `${ts} [${level}]: ${stack || message}`;
-});
-
-const EventEmitter = require('events');
-const { Writable } = require('stream');
-
-class LogEmitter extends EventEmitter {}
-const logStream = new LogEmitter();
-
-// Custom stream chuẩn của Node.js cho Winston
-const wsWritable = new Writable({
-  write(chunk, encoding, callback) {
-    logStream.emit('log', chunk.toString());
-    callback();
-  }
-});
-
-// Custom transport cho WebSocket
-const wsTransport = new transports.Stream({
-  stream: wsWritable
 });
 
 /**
@@ -65,16 +42,14 @@ const logger = createLogger({
         logFormat
       ),
     }),
-    // 2. Log ra websocket (frontend terminal)
-    wsTransport,
-    // 3. Log lỗi (Error) vào file error.log
+    // 2. Log lỗi (Error) vào file error.log
     new transports.File({
       filename: 'logs/error.log',
       level: 'error',
       maxsize: 5 * 1024 * 1024, // Giới hạn 5MB/file
       maxFiles: 3,
     }),
-    // 4. Log tổng hợp vào file combined.log
+    // 3. Log tổng hợp vào file combined.log
     new transports.File({
       filename: 'logs/combined.log',
       maxsize: 10 * 1024 * 1024, // Giới hạn 10MB/file
@@ -85,6 +60,5 @@ const logger = createLogger({
   exceptionHandlers: [new transports.File({ filename: 'logs/exceptions.log' })],
 });
 
-logger.logStream = logStream; // Export để dùng bên ngoài
 module.exports = logger;
 

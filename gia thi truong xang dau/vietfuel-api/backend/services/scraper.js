@@ -1,11 +1,7 @@
 /**
- * VietFuel API
- * Copyright (c) 2026 TranQui
- * Github: https://github.com/TranQui004
- * All rights reserved.
- * 
- * This source code is the intellectual property of TranQui.
- * Community contributions and pull requests are highly welcomed!
+ * Vietnam Fuel API
+ * Author: Chí Dũng
+ * Github: https://github.com/chidungho
  */
 'use strict';
 
@@ -44,13 +40,23 @@ if (require.main === module) {
 
   fn()
     .then((result) => {
-      console.log('\nKết quả cào dữ liệu:');
-      console.table(result.prices);
-      console.log('\nMetadata:', { scrapedAt: result.scrapedAt, priceDate: result.priceDate, source: result.source });
-      if (result.provinceName) console.log('Tỉnh:', result.provinceName, 'Vùng:', result.region);
+      const payload = {
+        prices: result.prices,
+        meta: {
+          scrapedAt: result.scrapedAt,
+          priceDate: result.priceDate,
+          source: result.source,
+          provinceName: result.provinceName || null,
+          region: result.region || null,
+        },
+      };
+      process.stdout.write(`${JSON.stringify(payload, null, 2)}\n`);
       process.exit(0);
     })
-    .catch((err) => { console.error('Lỗi:', err.message); process.exit(1); });
+    .catch((err) => {
+      process.stderr.write(`Lỗi: ${err.message}\n`);
+      process.exit(1);
+    });
 }
 
 module.exports = {

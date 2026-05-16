@@ -1,11 +1,7 @@
 /**
- * VietFuel API
- * Copyright (c) 2026 TranQui
- * Github: https://github.com/TranQui004
- * All rights reserved.
- * 
- * This source code is the intellectual property of TranQui.
- * Community contributions and pull requests are highly welcomed!
+ * Vietnam Fuel API
+ * Author: Chí Dũng
+ * Github: https://github.com/chidungho
  */
 'use strict';
 
@@ -148,8 +144,7 @@ function extractPvoilPricesFromText(text) {
     const whole = String(text || '');
     for (const spec of PRODUCT_SPECS) {
       const nearRegex = new RegExp(`${spec.matcher.source}[\\s\\S]{0,110}?(${PRICE_PATTERN.source})`, 'gi');
-      let match;
-      while ((match = nearRegex.exec(whole)) !== null) {
+      for (const match of whole.matchAll(nearRegex)) {
         const parsed = parsePrice(match[1]);
         if (parsed !== null) {
           rawPrices.push({

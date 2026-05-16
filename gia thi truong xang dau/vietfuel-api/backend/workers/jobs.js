@@ -1,11 +1,7 @@
 /**
- * VietFuel API
- * Copyright (c) 2026 TranQui
- * Github: https://github.com/TranQui004
- * All rights reserved.
- * 
- * This source code is the intellectual property of TranQui.
- * Community contributions and pull requests are highly welcomed!
+ * Vietnam Fuel API
+ * Author: Chí Dũng
+ * Github: https://github.com/chidungho
  */
 'use strict';
 
@@ -35,6 +31,7 @@ const {
   scrapeGiaxanghomnay, scrapeSaigonPetro, scrapeComeco, scrapePetrotimes,
 } = require('../services/scraper');
 const { updateFuelPrices } = require('../services/cache');
+const { isMissingPlaywrightBrowserError } = require('../services/scrapers/utils');
 
 // Các mirror regional của Petrolimex, đồng bộ từ nguồn chính
 const PETROLIMEX_MIRROR_SOURCES = [
@@ -68,6 +65,11 @@ async function runJob(source, fn, logger) {
       logger.info('[Job] Đồng bộ mirror Petrolimex KV2/SAIGON/VUNGTAU từ nguồn chính.');
     }
   } catch (err) {
+    if (isMissingPlaywrightBrowserError(err)) {
+      logger.warn(`[Job] ${source}: ${err.message}. Tiếp tục dùng cache cũ.`);
+      return;
+    }
+
     logger.error(`[Job] Lỗi khi cào ${source}: ${err.message}. Tiếp tục dùng cache cũ.`);
   }
 }
@@ -180,6 +182,6 @@ function startJobs(_config, logger) {
   logger.info('[Jobs]    ⚖️  Cơ sở: NĐ 80/2023/NĐ-CP — điều chỉnh giá Thứ Năm hàng tuần');
 }
 
-module.exports = { startJobs };
+module.exports = { runJob, runJobsSequentially, startJobs };
 
 

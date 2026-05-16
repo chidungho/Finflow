@@ -1,16 +1,12 @@
 /**
- * VietFuel API
- * Copyright (c) 2026 TranQui
- * Github: https://github.com/TranQui004
- * All rights reserved.
- * 
- * This source code is the intellectual property of TranQui.
- * Community contributions and pull requests are highly welcomed!
+ * Vietnam Fuel API
+ * Author: Chí Dũng
+ * Github: https://github.com/chidungho
  */
 'use strict';
 
 /* ==========================================================================
- * [ROUTES] - API Xăng Dầu (VietFuelAPI)
+ * [ROUTES] - API Xăng Dầu (Vietnam Fuel API)
  * Định nghĩa và xử lý phân luồng các đầu mối API công khai.
  * ========================================================================== */
 
