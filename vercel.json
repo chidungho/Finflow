@@ -1,0 +1,23 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "version": 2,
+  "installCommand": "npm --prefix \"gia thi truong xang dau/vietfuel-api/backend\" ci",
+  "functions": {
+    "api/index.js": {
+      "maxDuration": 60,
+      "includeFiles": [
+        "gia thi truong xang dau/index.html",
+        "gia thi truong xang dau/style.css",
+        "gia thi truong xang dau/script.js",
+        "gia thi truong xang dau/vietfuel-api/backend/cache.json",
+        "gia thi truong xang dau/vietfuel-api/backend/data/**"
+      ]
+    }
+  },
+  "rewrites": [
+    {
+      "source": "/(.*)",
+      "destination": "/api/index.js"
+    }
+  ]
+}
