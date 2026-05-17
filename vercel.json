@@ -5,7 +5,8 @@
   "functions": {
     "api/index.js": {
       "maxDuration": 60,
-      "includeFiles": "gia thi truong xang dau/{index.html,style.css,script.js,vietfuel-api/cache.json,vietfuel-api/backend/cache.json,vietfuel-api/backend/data/**}"
+      "includeFiles": "gia thi truong xang dau/{index.html,style.css,script.js,vietfuel-api/cache.json,vietfuel-api/backend/{cache.json,data/**,services/**}}",
+      "excludeFiles": "gia thi truong xang dau/vietfuel-api/backend/node_modules/{playwright,playwright-core}/**"
     }
   },
   "rewrites": [

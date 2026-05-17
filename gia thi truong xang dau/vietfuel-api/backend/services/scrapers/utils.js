@@ -14,7 +14,6 @@
  * ========================================================================== */
 
 const fs = require('fs');
-const { chromium } = require('playwright');
 const config = require('../../config');
 const logger = require('../../utils/logger');
 
@@ -141,8 +140,21 @@ function isMissingPlaywrightBrowserError(err) {
   return /Executable doesn't exist|Looks like Playwright was just installed|npx playwright install/i.test(message);
 }
 
+function getChromium() {
+  try {
+    const packageName = process.env.PLAYWRIGHT_PACKAGE || ['play', 'wright'].join('');
+    return require(packageName).chromium;
+  } catch (err) {
+    if (err?.code === 'MODULE_NOT_FOUND' && /playwright/i.test(String(err.message))) {
+      throw createMissingBrowserError();
+    }
+    throw err;
+  }
+}
+
 function isLocalChromiumAvailable() {
   try {
+    const chromium = getChromium();
     return fs.existsSync(chromium.executablePath());
   } catch {
     return false;
@@ -154,6 +166,8 @@ function isLocalChromiumAvailable() {
  * Tái sử dụng ngữ cảnh cấu hình giúp tối ưu CPU/RAM tránh tải tài nguyên thừa.
  */
 async function createBrowser() {
+  const chromium = getChromium();
+
   if (!isLocalChromiumAvailable()) {
     throw createMissingBrowserError();
   }

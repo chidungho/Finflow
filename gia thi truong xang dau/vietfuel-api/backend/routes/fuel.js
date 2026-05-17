@@ -17,7 +17,6 @@ const {
   getFuelPrices, getCacheStats,
   getProvincePrice, updateProvincePrice, getProvinceCacheStats, updateFuelPrices,
 } = require('../services/cache');
-const { scrapeProvincePrice, scrapePVOil, scrapeGiaxanghomnay } = require('../services/scraper');
 const { fetchGoldPrices, GOLD_API_URL, GOLD_API_DOCS_URL } = require('../services/gold');
 const {
   DISCLAIMER, SOURCES,
@@ -66,7 +65,13 @@ const provinceLimiter = rateLimit({
 
 router.use(generalLimiter);
 
+function getScraper(name) {
+  const modulePath = process.env.SCRAPER_MODULE_PATH || ['..', 'services', 'scraper'].join('/');
+  return require(modulePath)[name];
+}
+
 async function refreshDefaultFuelPrices() {
+  const scrapeGiaxanghomnay = getScraper('scrapeGiaxanghomnay');
   const fresh = await scrapeGiaxanghomnay();
   updateFuelPrices('giaxanghomnay', fresh);
   return fresh;
@@ -239,6 +244,7 @@ router.get('/fuel-prices/province/:slug', provinceLimiter, async (req, res) => {
   // [CACHE] Cache miss, thực hiện cào on-demand.
   try {
     res.set('Cache-Control', 'no-store');
+    const scrapeProvincePrice = getScraper('scrapeProvincePrice');
     const data = await scrapeProvincePrice(slug);
     updateProvincePrice(slug, data);
     const sorted = sortPrices(data.prices);
@@ -293,6 +299,7 @@ router.get('/fuel-prices/:source', async (req, res) => {
 
   if (source === 'giaxanghomnay' && (forceRefresh || !data || stats.isStale)) {
     try {
+      const scrapeGiaxanghomnay = getScraper('scrapeGiaxanghomnay');
       const fresh = await scrapeGiaxanghomnay();
       updateFuelPrices('giaxanghomnay', fresh);
       data = fresh;
@@ -306,6 +313,7 @@ router.get('/fuel-prices/:source', async (req, res) => {
   // nên ưu tiên làm mới ngay tại thời điểm request nếu cache stale hoặc rỗng.
   if (source === 'pvoil' && (forceRefresh || !data || stats.isStale)) {
     try {
+      const scrapePVOil = getScraper('scrapePVOil');
       const fresh = await scrapePVOil();
       updateFuelPrices('pvoil', fresh);
       data = fresh;
