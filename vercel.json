@@ -5,13 +5,7 @@
   "functions": {
     "api/index.js": {
       "maxDuration": 60,
-      "includeFiles": [
-        "gia thi truong xang dau/index.html",
-        "gia thi truong xang dau/style.css",
-        "gia thi truong xang dau/script.js",
-        "gia thi truong xang dau/vietfuel-api/backend/cache.json",
-        "gia thi truong xang dau/vietfuel-api/backend/data/**"
-      ]
+      "includeFiles": "gia thi truong xang dau/{index.html,style.css,script.js,vietfuel-api/cache.json,vietfuel-api/backend/cache.json,vietfuel-api/backend/data/**}"
     }
   },
   "rewrites": [
