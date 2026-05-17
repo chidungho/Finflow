@@ -1,103 +1,319 @@
-# FinFlow.vn - Vietnam Fuel API
+# VietFuel API
 
-> Dashboard tài chính Việt Nam kết hợp giao diện theo dõi thị trường với API dữ liệu xăng dầu và giá vàng.
+[![Node.js](https://img.shields.io/badge/Node.js->=18-green?logo=node.js)](https://nodejs.org/)
+[![Express](https://img.shields.io/badge/Express-5.x-blue?logo=express)](https://expressjs.com/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
-FinFlow.vn giúp người dùng xem nhanh các chỉ số quan trọng như vàng, xăng dầu, chứng khoán, tỷ giá và lãi suất trong một giao diện rõ ràng, tối ưu cho cả desktop lẫn mobile. Phần backend cung cấp API Node.js để lấy giá xăng dầu từ nhiều nguồn công khai, cache dữ liệu, tra cứu theo tỉnh thành và đồng bộ giá vàng từ API bên ngoài.
+Real-time Vietnam fuel prices and gold prices API with multi-source data aggregation.
 
-<p align="center">
-  <img src="docs/preview.png" alt="Ảnh giao diện FinFlow.vn" width="100%" />
-</p>
+## Overview
 
-**Hình 1.** Giao diện tổng quan thị trường của FinFlow.vn.
+**VietFuel API** is a Node.js REST API that aggregates fuel and gold prices from multiple Vietnamese data sources. Built for financial market tracking applications, it provides reliable data with intelligent caching, automatic updates, and province-level price lookup.
 
-## Điểm nổi bật
+### Key Features
 
-- Dashboard tài chính một màn hình: vàng, xăng dầu, chứng khoán, tỷ giá và lãi suất.
-- API xăng dầu Việt Nam với dữ liệu tổng hợp từ nhiều nguồn công khai.
-- Hỗ trợ tra cứu giá xăng dầu theo tỉnh thành qua slug.
-- API giá vàng realtime với cache ngắn hạn để giảm tải nguồn dữ liệu.
-- Adaptive cron theo lịch điều chỉnh giá xăng dầu tại Việt Nam: kiểm tra thưa hơn ngày thường, tăng tần suất quanh khung giờ công bố.
-- Cache in-memory kết hợp fallback `cache.json`, giúp API vẫn có dữ liệu khi nguồn bên ngoài tạm lỗi.
-- Express middleware cho CORS, compression, helmet và rate limit.
-- Giao diện responsive, có bảng dữ liệu, thẻ tóm tắt, biểu đồ SVG và trạng thái đồng bộ API.
+- **Multi-source fuel price aggregation** from Petrolimex, PVOil, Mipec, Saigon Petro, COMECO, PetroTimes, WebGia, and GiaXangHomNay
+- **Real-time gold prices** with short-term caching to minimize external API load
+- **Province-level price lookup** with automatic on-demand scraping (60+ Vietnamese provinces)
+- **Intelligent caching** with in-memory cache + `cache.json` fallback for zero downtime
+- **Adaptive scheduled updates** with timezone-aware cron jobs (optimized for Vietnam's fuel price announcement schedule)
+- **Production-ready API** with rate limiting, CORS, compression, and security headers
+- **Zero-config setup** — works out of the box with sensible defaults
 
-## Kiến trúc
+## Tech Stack
 
-```mermaid
-flowchart LR
-    Browser["FinFlow.vn UI<br/>index.html"] --> API["Express API<br/>/api/*"]
-    API --> Cache["Node cache<br/>cache.json fallback"]
-    API --> Gold["vang.today<br/>Gold API"]
-    API --> FuelRoutes["Fuel routes"]
-    FuelRoutes --> Scrapers["Fuel scrapers"]
-    Jobs["node-cron<br/>adaptive jobs"] --> Scrapers
-    Scrapers --> Sources["Petrolimex, PVOil, Mipec,<br/>Saigon Petro, COMECO,<br/>PetroTimes, WebGia, GiaXangHomNay"]
-    Scrapers --> Cache
-```
+| Layer | Technology |
+|-------|-----------|
+| **Runtime** | Node.js >=18 |
+| **Framework** | Express 5 |
+| **Data Scraping** | Playwright, custom HTML parsers |
+| **Caching** | node-cache + persistent JSON fallback |
+| **Scheduling** | node-cron (Asia/Ho_Chi_Minh timezone) |
+| **Security** | helmet, CORS, express-rate-limit |
+| **Logging** | Winston |
+| **Testing** | Node test runner |
 
-## Công nghệ
+## Quick Start
 
-| Thành phần | Công nghệ |
-|---|---|
-| Frontend | HTML, CSS, JavaScript thuần, SVG chart |
-| Backend | Node.js, Express 5 |
-| Scraping | Playwright, custom parsers |
-| Cache | node-cache, `cache.json` fallback |
-| Cron | node-cron, timezone `Asia/Ho_Chi_Minh` |
-| Bảo vệ API | helmet, cors, compression, express-rate-limit |
-| Test | Node test runner |
+### Prerequisites
 
-## Chạy local
+- **Node.js** `>=18` and **npm**
+- **Chromium browser** (automatically installed by Playwright)
 
-Yêu cầu Node.js `>=18`.
+### Installation
 
 ```bash
+# Clone repository
 git clone https://github.com/chidungho/vietfuel-api.git
 cd vietfuel-api
 
+# Install backend dependencies
 npm --prefix "gia thi truong xang dau/vietfuel-api/backend" install
+
+# Install Playwright browsers
 npm run browser:install
+
+# Start development server with auto-scraping
 npm run dev
 ```
 
-Sau khi chạy, mở:
+Server will run on `http://localhost:3000`
 
-```text
-http://localhost:3000
+### Environment Setup (Optional)
+
+Create a `.env` file in the backend directory for custom configuration:
+
+```bash
+cp "gia thi truong xang dau/vietfuel-api/backend/.env.example" \
+   "gia thi truong xang dau/vietfuel-api/backend/.env"
 ```
 
-Nếu chỉ muốn mở server nhanh mà không chạy cron/scraper nền ngay lúc khởi động:
+## Configuration
 
-```powershell
+| Variable | Default | Description |
+|----------|---------|-------------|
+| `PORT` | `3000` | HTTP server port |
+| `NODE_ENV` | `development` | Environment mode (`development` or `production`) |
+| `CACHE_TTL_MINUTES` | `60` | Fuel price cache TTL in minutes |
+| `GOLD_CACHE_TTL_SECONDS` | `300` | Gold price cache TTL in seconds |
+| `CRON_SCHEDULE` | `"0 * * * *"` | Auto-scrape schedule (cron format, 1 hour) |
+| `SKIP_BOOTSTRAP_JOBS` | `false` | Skip auto-scraping on startup (useful for testing) |
+
+**Skip auto-scraping on startup:**
+
+```bash
+# PowerShell
 $env:SKIP_BOOTSTRAP_JOBS="true"
 npm run dev
+
+# Bash
+SKIP_BOOTSTRAP_JOBS=true npm run dev
 ```
 
-## API chính
+## API Endpoints
 
-| Method | Endpoint | Mô tả |
-|---|---|---|
-| GET | `/api/fuel-prices` | Trả bảng giá xăng dầu tổng hợp từ nguồn mặc định. |
-| GET | `/api/fuel-prices?refresh=1` | Ép làm mới dữ liệu nguồn mặc định nếu có thể. |
-| GET | `/api/fuel-prices/:source` | Lấy dữ liệu từ một nguồn cụ thể, ví dụ `pvoil` hoặc `petrolimex`. |
-| GET | `/api/fuel-prices/province/:slug` | Tra cứu giá theo tỉnh thành, ví dụ `/api/fuel-prices/province/ha-noi`. |
-| GET | `/api/gold-prices` | Lấy giá vàng từ nguồn API công khai và cache ngắn hạn. |
-| GET | `/api/gold-prices?type=SJC` | Lọc giá vàng theo mã sản phẩm. |
-| GET | `/api/provinces` | Danh sách tỉnh thành hỗ trợ tra cứu. |
-| GET | `/api/sources` | Danh sách nguồn dữ liệu và trạng thái cache. |
-| GET | `/api/health` | Kiểm tra trạng thái cache và endpoint hiện có. |
+### Fuel Prices
 
-Nguồn xăng dầu hiện có: `petrolimex`, `kv2_petrolimex`, `saigon_petrolimex`, `vungtau_petrolimex`, `pvoil`, `mipec`, `comeco`, `saigonpetro`, `petrotimes`, `webgia`, `giaxanghomnay`.
+**Get aggregated fuel prices** (default source)
 
-## Biến môi trường
+```http
+GET /api/fuel-prices
+```
 
-Không bắt buộc tạo `.env` để chạy mặc định. Các biến dưới đây dùng khi cần tùy chỉnh môi trường hoặc nguồn dữ liệu.
+**Response Example:**
 
-| Biến | Mặc định | Mục đích |
-|---|---|---|
-| `PORT` | `3000` | Cổng HTTP server. |
-| `NODE_ENV` | `development` | Môi trường chạy ứng dụng. |
-| `CACHE_TTL_MINUTES` | `60` | TTL cache xăng dầu. |
+```json
+{
+  "success": true,
+  "status": "ok",
+  "disclaimer": "...",
+  "meta": {
+    "primarySourceId": "giaxanghomnay",
+    "primarySource": "GiaXangHomNay",
+    "primarySourceUrl": "https://giaxanghomnay.com",
+    "dataSources": ["giaxanghomnay", "petrolimex", "pvoil"],
+    "sourceCount": 3,
+    "scrapedAt": "2026-05-17T10:30:00Z",
+    "priceDate": "2026-05-17",
+    "cacheHit": true,
+    "cacheTtlRemainingSeconds": 1800,
+    "isStale": false,
+    "totalItems": 7
+  },
+  "data": [
+    {
+      "name": "Xăng RON 95-V",
+      "region1": 24650,
+      "region2": 25140,
+      "price": null,
+      "unit": "VND/lít"
+    },
+    {
+      "name": "DO 0,001S-V",
+      "region1": 29430,
+      "region2": 30010,
+      "price": null,
+      "unit": "VND/lít"
+    }
+  ]
+}
+```
+
+**Refresh fuel data** (force scrape):
+
+```http
+GET /api/fuel-prices?refresh=1
+```
+
+**Get fuel prices by source**
+
+```http
+GET /api/fuel-prices/{source}
+```
+
+Available sources: `petrolimex`, `kv2_petrolimex`, `saigon_petrolimex`, `vungtau_petrolimex`, `pvoil`, `mipec`, `comeco`, `saigonpetro`, `petrotimes`, `webgia`, `giaxanghomnay`
+
+Example: `GET /api/fuel-prices/pvoil`
+
+**Get fuel prices by province**
+
+```http
+GET /api/fuel-prices/province/{slug}
+```
+
+Example: `GET /api/fuel-prices/province/ha-noi`
+
+### Gold Prices
+
+**Get gold prices**
+
+```http
+GET /api/gold-prices
+```
+
+**Filter by gold type**
+
+```http
+GET /api/gold-prices?type=SJC
+GET /api/gold-prices?type=DOJI
+```
+
+### Metadata
+
+**List all provinces**
+
+```http
+GET /api/provinces
+```
+
+**Filter provinces by region**
+
+```http
+GET /api/provinces?region=1
+GET /api/provinces?region=2
+```
+
+**List data sources with cache status**
+
+```http
+GET /api/sources
+```
+
+**Health check**
+
+```http
+GET /api/health
+```
+
+Returns cache status for all sources and endpoint statistics.
+
+## Project Structure
+
+```
+vietfuel-api/
+├── gia thi truong xang dau/
+│   ├── index.html                 # Frontend (standalone HTML app)
+│   ├── style.css
+│   ├── script.js
+│   └── vietfuel-api/
+│       └── backend/
+│           ├── index.js           # App entry point
+│           ├── server.js          # Express server
+│           ├── package.json
+│           ├── .env.example       # Configuration template
+│           ├── cache.json         # Persistent fallback cache
+│           ├── config/
+│           │   └── index.js       # Configuration loader
+│           ├── data/
+│           │   └── provinces.json # Province database
+│           ├── routes/
+│           │   └── fuel.js        # API route handlers
+│           ├── services/
+│           │   ├── cache.js       # Cache management
+│           │   ├── gold.js        # Gold price fetcher
+│           │   ├── scraper.js     # Main scraper orchestrator
+│           │   └── scrapers/      # Source-specific parsers
+│           │       ├── petrolimex.js
+│           │       ├── pvoil.js
+│           │       ├── mipec.js
+│           │       ├── ... (8 more sources)
+│           │       └── utils.js   # Scraper helpers
+│           ├── utils/
+│           │   ├── fuel-helpers.js  # API helpers
+│           │   └── logger.js        # Winston logger
+│           ├── workers/
+│           │   └── jobs.js          # Cron job definitions
+│           ├── logs/                 # Application logs
+│           └── tests/
+│               ├── playwright-missing.test.js
+│               └── server-static.test.js
+└── README.md
+```
+
+## Development
+
+### Run Tests
+
+```bash
+npm test
+```
+
+### Run Scraper (Manual)
+
+```bash
+npm run scrape
+```
+
+### Development Server (with auto-reload)
+
+```bash
+npm run dev
+```
+
+### Production Server
+
+```bash
+npm start
+```
+
+## How It Works
+
+1. **Startup**: Express server loads configuration, initializes cache, and starts scheduled jobs
+2. **Scheduled Updates**: `node-cron` periodically scrapes fuel prices from configured sources (default: every hour)
+3. **Scraping**: Playwright launches headless Chromium to parse HTML from multiple fuel retailers
+4. **Caching**: Scraped data is stored in-memory (`node-cache`) and persisted to `cache.json` as fallback
+5. **API Requests**: Incoming requests are served from cache with optional refresh (`?refresh=1`)
+6. **Province Lookup**: On-demand scraping for specific provinces if not cached
+7. **Gold Prices**: Integrated API calls to external gold price service with separate cache layer
+
+## Performance & Reliability
+
+- **Smart Caching**: In-memory + persistent JSON keeps API responsive even if all sources are down
+- **Rate Limiting**: Built-in request throttling (60 req/min general, 20 req/min province lookups)
+- **Timeout Handling**: Graceful degradation with stale cache fallback
+- **Logging**: Request/error logging via Winston for monitoring
+- **CORS & Security**: Helmet, CORS, and compression headers for production use
+
+## Notes & Disclaimers
+
+- Data is scraped from public websites; accuracy depends on source freshness
+- Fuel prices are typically updated by Vietnam's government on specific dates (15th, 25th, or adjusted schedule)
+- Gold prices update in real-time from vang.today API
+- All times are in Vietnam timezone (`Asia/Ho_Chi_Minh`)
+- Rate limits apply to prevent abuse; adjust in routes as needed
+
+## Contributing
+
+Contributions are welcome! Please open an issue or pull request on GitHub.
+
+## License
+
+MIT License — see [LICENSE](LICENSE) file for details
+
+## Author
+
+**Chí Dũng**  
+GitHub: [@chidungho](https://github.com/chidungho)
 | `GOLD_API_URL` | `https://www.vang.today/api/prices` | Nguồn API giá vàng. |
 | `GOLD_CACHE_TTL_SECONDS` | `300` | TTL cache giá vàng. |
 | `SKIP_BOOTSTRAP_JOBS` | `false` | Bỏ qua scrape lần đầu và cron khi khởi động. |
