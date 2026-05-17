@@ -1,4 +1,4 @@
-# VietFuel API
+ # VietFuel API
 
 [![Node.js](https://img.shields.io/badge/Node.js->=18-green?logo=node.js)](https://nodejs.org/)
 [![Express](https://img.shields.io/badge/Express-5.x-blue?logo=express)](https://expressjs.com/)
@@ -9,6 +9,12 @@ Real-time Vietnam fuel prices and gold prices API with multi-source data aggrega
 ## Overview
 
 **VietFuel API** is a Node.js REST API that aggregates fuel and gold prices from multiple Vietnamese data sources. Built for financial market tracking applications, it provides reliable data with intelligent caching, automatic updates, and province-level price lookup.
+
+## Preview
+
+<p align="center">
+  <img src="./docs/preview.png" alt="Vietnam Fuel API Preview" width="100%">
+</p>
 
 ### Key Features
 
@@ -321,29 +327,6 @@ GitHub: [@chidungho](https://github.com/chidungho)
 | `PETROLIMEX_URL`, `PVOIL_URL`, `MIPEC_URL`, ... | URL nguồn mặc định | Override nguồn scraper khi cần. |
 
 Không commit file `.env` lên GitHub nếu trong đó có cấu hình riêng của môi trường triển khai.
-
-## Cấu trúc thư mục
-
-```text
-.
-├── README.md
-├── docs/
-│   └── preview.png
-├── package.json
-└── gia thi truong xang dau/
-    ├── index.html
-    └── vietfuel-api/
-        └── backend/
-            ├── config/
-            ├── data/
-            ├── routes/
-            ├── services/
-            ├── tests/
-            ├── utils/
-            ├── workers/
-            ├── index.js
-            └── server.js
-```
 
 ## Kiểm thử
 
