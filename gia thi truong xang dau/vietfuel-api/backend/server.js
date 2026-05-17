@@ -19,6 +19,10 @@ function getFrontendIndexPath() {
   return path.join(__dirname, '..', '..', 'index.html');
 }
 
+function getFrontendAssetPath(fileName) {
+  return path.join(__dirname, '..', '..', fileName);
+}
+
 function createApp() {
   const app = express();
 
@@ -42,6 +46,11 @@ function createApp() {
   app.disable('x-powered-by');
 
   app.use('/api', fuelRoutes);
+
+  app.get(['/style.css', '/script.js'], (req, res) => {
+    res.set('Cache-Control', 'no-store');
+    res.sendFile(getFrontendAssetPath(path.basename(req.path)));
+  });
 
   app.get(['/', '/index.html'], (_, res) => {
     res.set('Cache-Control', 'no-store');
